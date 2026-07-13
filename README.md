@@ -1,8 +1,7 @@
 # Turkey Farm Management System
 
-![Status](https://img.shields.io/badge/status-incomplete%20prototype-yellow)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Tech](https://img.shields.io/badge/tech-HTML%20%7C%20CSS%20%7C%20JavaScript-blue)
+
 
 Local web application for managing operational records in a turkey farm, including artificial insemination, semen collection, egg production and inventory movements.
 
