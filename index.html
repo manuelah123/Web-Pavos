@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Granja de Pavos | Inventario y Produccion</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">GP</div>
+      <div>
+        <p class="eyebrow">Control diario</p>
+        <h1> Granja Lusitania </h1>
+      </div>
+    </div>
+
+    <nav class="module-nav" aria-label="Modulos">
+      <button class="nav-button active" data-view="dashboard" type="button">
+        <span>Inicio</span>
+      </button>
+      <button class="nav-button" data-view="inseminacion" type="button">
+        <span>Inseminada</span>
+      </button>
+      <button class="nav-button" data-view="huevos" type="button">
+        <span>Huevos</span>
+      </button>
+      <button class="nav-button" data-view="colecta" type="button">
+        <span>Colecta</span>
+      </button>
+      <button class="nav-button" data-view="inventario" type="button">
+        <span>Inventario</span>
+      </button>
+    </nav>
+
+    <div class="backup-panel">
+      <button id="exportData" class="secondary-button" type="button">Exportar respaldo</button>
+      <label class="file-button">
+        Importar respaldo
+        <input id="importData" type="file" accept="application/json">
+      </label>
+      <p>Los datos quedan guardados en este navegador.</p>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Sistema local</p>
+        <h2 id="viewTitle">Resumen general</h2>
+      </div>
+      <div class="top-actions">
+        <input id="globalSearch" class="search" type="search" placeholder="Buscar lote, producto, persona...">
+        <button id="clearSearch" class="icon-button" type="button" title="Limpiar busqueda"
+          aria-label="Limpiar busqueda">x</button>
+      </div>
+    </header>
+
+    <section id="dashboard" class="view active-view">
+      <div class="metrics-grid">
+        <article class="metric">
+          <span>Registros de inseminada</span>
+          <strong id="metricInseminacion">0</strong>
+        </article>
+        <article class="metric">
+          <span>Registros de huevos</span>
+          <strong id="metricHuevos">0</strong>
+        </article>
+        <article class="metric">
+          <span>Colectas registradas</span>
+          <strong id="metricColecta">0</strong>
+        </article>
+        <article class="metric">
+          <span>Productos activos</span>
+          <strong id="metricInventario">0</strong>
+        </article>
+      </div>
+
+      <div class="dashboard-grid">
+        <section class="panel">
+          <div class="panel-heading">
+            <h3>Actividad reciente</h3>
+          </div>
+          <div id="recentActivity" class="activity-list empty">No hay registros todavia.</div>
+        </section>
+        <section class="panel">
+          <div class="panel-heading">
+            <h3>Alertas de inventario</h3>
+          </div>
+          <div id="stockAlerts" class="activity-list empty">Sin productos bajos.</div>
+        </section>
+      </div>
+    </section>
+
+    <section id="inseminacion" class="view">
+      <form class="panel data-form" data-form="inseminacion">
+        <div class="panel-heading">
+          <h3>Formato de inseminada</h3>
+          <button class="primary-button" type="submit">Guardar</button>
+        </div>
+        <div class="form-grid">
+          <label>Fecha <input name="fecha" type="date" required></label>
+          <label>Lote inseminado <input name="lote" type="text" required></label>
+          <label>Hora inicio <input name="horaInicio" type="time"></label>
+          <label>Hora final <input name="horaFinal" type="time"></label>
+          <label>Semen gastado <input name="semenGastado" type="number" min="0" step="0.01"></label>
+          <label>Pavas cerradas <input name="pavasCerradas" type="number" min="0"></label>
+          <label>Pavas con masa <input name="pavasMasa" type="number" min="0"></label>
+          <label>Pavas con viruela <input name="pavasViruela" type="number" min="0"></label>
+          <label>Sacadas a enfermeria <input name="enfermeria" type="number" min="0"></label>
+          <label>Pavas recuperadas <input name="recuperadas" type="number" min="0"></label>
+          <label>Empajillo <input name="empajillo" type="text"></label>
+          <label>Colecto <input name="colecto" type="text"></label>
+          <label>Chupo <input name="chupo" type="text"></label>
+          <label>Abrio <input name="abrio" type="text"></label>
+          <label>Paso <input name="paso" type="text"></label>
+          <label class="wide">Observaciones <textarea name="observaciones" rows="3"></textarea></label>
+        </div>
+      </form>
+      <section class="panel">
+        <div class="panel-heading">
+          <h3>Registros guardados</h3>
+          <button class="secondary-button" data-download="inseminacion" type="button">CSV</button>
+        </div>
+        <div class="table-wrap">
+          <table id="table-inseminacion"></table>
+        </div>
+      </section>
+    </section>
+
+    <section id="huevos" class="view">
+      <form class="panel data-form" data-form="huevos">
+        <div class="panel-heading">
+          <h3>Formato diario de produccion de huevos</h3>
+          <button class="primary-button" type="submit">Guardar</button>
+        </div>
+        <div class="form-sections">
+          <div class="form-section">
+            <div class="section-title">Datos de lote</div>
+            <div class="form-grid compact">
+              <label>Fecha <input name="fecha" type="date" required></label>
+              <label>Lote <input name="lote" type="text" required></label>
+              <label>Edad / semana <input name="edad" type="number" min="0"></label>
+              <label>Galpon <input name="galpon" type="text"></label>
+            </div>
+          </div>
+          <div class="form-section">
+            <div class="section-title">Huevo fertil</div>
+            <div class="form-grid compact">
+              <label>Pequeno <input name="fertilPequeno" type="number" min="0"></label>
+              <label>Mediano <input name="fertilMediano" type="number" min="0"></label>
+              <label>Grande <input name="fertilGrande" type="number" min="0"></label>
+              <label>Total fertil <input name="totalFertil" type="number" min="0"></label>
+            </div>
+          </div>
+          <div class="form-section">
+            <div class="section-title">Huevo comercial</div>
+            <div class="form-grid compact">
+              <label>Roto <input name="comercialRoto" type="number" min="0"></label>
+              <label>Sucio <input name="comercialSucio" type="number" min="0"></label>
+              <label>Doble yema <input name="dobleYema" type="number" min="0"></label>
+              <label>Blanco <input name="blanco" type="number" min="0"></label>
+              <label>Pequeno <input name="comercialPequeno" type="number" min="0"></label>
+              <label>Otros / cascaras <input name="otrosCascaras" type="number" min="0"></label>
+              <label>Total comercial <input name="totalComercial" type="number" min="0"></label>
+              <label>Total produccion dia <input name="totalProduccionDia" type="number" min="0"></label>
+            </div>
+          </div>
+          <div class="form-section">
+            <div class="section-title">Manejo de aves</div>
+            <div class="form-grid compact">
+              <label>Recuperadas manana A <input name="recuperadasMananaA" type="number" min="0"></label>
+              <label>Recuperadas manana B <input name="recuperadasMananaB" type="number" min="0"></label>
+              <label>Pintadas manana A <input name="pintadasMananaA" type="number" min="0"></label>
+              <label>Pintadas manana B <input name="pintadasMananaB" type="number" min="0"></label>
+              <label>Castigadas tarde A <input name="castigadasTardeA" type="number" min="0"></label>
+              <label>Castigadas tarde B <input name="castigadasTardeB" type="number" min="0"></label>
+              <label>Enfermeria <input name="enfermeria" type="number" min="0"></label>
+              <label>Mortalidad <input name="mortalidad" type="number" min="0"></label>
+            </div>
+          </div>
+          <div class="form-section">
+            <div class="section-title">Aves, alimento y agua</div>
+            <div class="form-grid compact">
+              <label>Saldo hembras <input name="saldoHembras" type="number" min="0"></label>
+              <label>Saldo machos <input name="saldoMachos" type="number" min="0"></label>
+              <label>Bultos <input name="bultos" type="number" min="0" step="0.01"></label>
+              <label>Agua <input name="agua" type="number" min="0" step="0.01"></label>
+              <label class="wide">Observaciones <textarea name="observaciones" rows="3"></textarea></label>
+            </div>
+          </div>
+        </div>
+      </form>
+      <section class="panel">
+        <div class="panel-heading">
+          <h3>Registros guardados</h3>
+          <button class="secondary-button" data-download="huevos" type="button">CSV</button>
+        </div>
+        <div class="table-wrap">
+          <table id="table-huevos"></table>
+        </div>
+      </section>
+    </section>
+
+    <section id="colecta" class="view">
+      <form class="panel data-form" data-form="colecta">
+        <div class="panel-heading">
+          <h3>Formato de colecta de machos</h3>
+          <button class="primary-button" type="submit">Guardar</button>
+        </div>
+        <div class="form-grid">
+          <label>Fecha <input name="fecha" type="date" required></label>
+          <label>Sala <input name="sala" type="text" required></label>
+          <label>Lote <input name="lote" type="text"></label>
+          <label>Concentracion <input name="concentracion" type="number" min="0" step="0.01"></label>
+          <label>Semen extraido <input name="semenExtraido" type="number" min="0" step="0.01"></label>
+          <label>Machos trabajados <input name="machosTrabajados" type="number" min="0"></label>
+          <label>Machos que dieron <input name="machosDieron" type="number" min="0"></label>
+          <label>Machos que no dieron <input name="machosNoDieron" type="number" min="0"></label>
+          <label>Mala calidad <input name="malaCalidad" type="number" min="0"></label>
+          <label>Colector <input name="colector" type="text"></label>
+          <label class="wide">Observaciones <textarea name="observaciones" rows="3"></textarea></label>
+        </div>
+      </form>
+      <section class="panel">
+        <div class="panel-heading">
+          <h3>Registros guardados</h3>
+          <button class="secondary-button" data-download="colecta" type="button">CSV</button>
+        </div>
+        <div class="table-wrap">
+          <table id="table-colecta"></table>
+        </div>
+      </section>
+    </section>
+
+    <section id="inventario" class="view">
+      <div class="module-note">
+        Registra primero el producto y luego cada movimiento. El saldo final se calcula con entradas menos consumo,
+        salida por actividad y traslado.
+      </div>
+      <div class="inventory-layout">
+        <form class="panel data-form" data-form="productos">
+          <div class="panel-heading">
+            <h3>Producto</h3>
+            <button class="primary-button" type="submit">Guardar</button>
+          </div>
+          <div class="form-grid compact">
+            <label>Producto <input name="producto" type="text" required></label>
+            <label>Unidad <input name="unidad" type="text" placeholder="ml, bulto, unidad"></label>
+            <label>Cantidad actual <input name="cantidad" type="number" min="0" step="0.01" required></label>
+            <label>Minimo alerta <input name="minimo" type="number" min="0" step="0.01"></label>
+          </div>
+        </form>
+
+        <form class="panel data-form" data-form="salidas">
+          <div class="panel-heading">
+            <h3>Movimiento de inventario</h3>
+            <button class="primary-button" type="submit">Registrar movimiento</button>
+          </div>
+          <div class="form-grid compact">
+            <label>Fecha <input name="fecha" type="date" required></label>
+            <label>Numero de salida <input name="numeroSalida" type="text" required></label>
+            <label>Centro de trabajo <input name="centroTrabajo" type="text"></label>
+            <label>Responsable <input name="responsable" type="text"></label>
+            <label>Producto <select name="productoId" required></select></label>
+            <label>Unidad de medida <input name="unidadMovimiento" type="text"
+                placeholder="Se completa desde producto"></label>
+            <label>Entradas <input name="entradas" type="number" min="0" step="0.01"></label>
+            <label>Consumo <input name="consumo" type="number" min="0" step="0.01"></label>
+            <label>Salida por actividad <input name="salidaActividad" type="number" min="0" step="0.01"></label>
+            <label>Traslado <input name="traslado" type="number" min="0" step="0.01"></label>
+            <label>Lote de aves <input name="lote" type="text"></label>
+            <label>Temp / nivel nitrogeno <input name="nivelNitrogeno" type="text"></label>
+            <label>Fecha de vencimiento <input name="fechaVencimiento" type="date"></label>
+            <label>Stock permitido <input name="stockPermitido" type="number" min="0" step="0.01"></label>
+            <label>Firma colaborador <input name="firmaColaborador" type="text"></label>
+            <label class="wide">Observaciones y verificacion fisica <textarea name="observaciones"
+                rows="3"></textarea></label>
+          </div>
+        </form>
+      </div>
+      <section class="panel">
+        <div class="panel-heading">
+          <h3>Productos</h3>
+          <button class="secondary-button" data-download="productos" type="button">CSV</button>
+        </div>
+        <div class="table-wrap">
+          <table id="table-productos"></table>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="panel-heading">
+          <h3>Salidas guardadas</h3>
+          <button class="secondary-button" data-download="salidas" type="button">CSV</button>
+        </div>
+        <div class="table-wrap">
+          <table id="table-salidas"></table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+
+</html>
