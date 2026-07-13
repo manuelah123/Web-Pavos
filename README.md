@@ -1,98 +1,211 @@
-# Turkey Farm Management System
+# Turkey Farm Management System – Web Prototype
 
-![License](https://img.shields.io/badge/license-MIT-green)
+Turkey Farm Management System is a web application developed with HTML, CSS and JavaScript to support the operational management of a turkey farm. The system allows users to record artificial insemination processes, semen collection, daily egg production and inventory movements.
 
-
-Local web application for managing operational records in a turkey farm, including artificial insemination, semen collection, egg production and inventory movements.
-
-> **Project status:** incomplete prototype / work in progress.  
-> This repository contains an early version of the system. It is useful as a base prototype, but it still needs a real database, authentication, stronger validations, reports and production-ready improvements.
-
-## Languages
-
-- [English](#english)
-- [Español](#español)
+This project is currently a prototype. Data is stored locally using `localStorage`, so it does not yet include a database, authentication system, user roles or device synchronization.
 
 ---
 
-## English
+# Main Features
 
-### Overview
+| Feature | Technology | Benefit |
+|---|---|---|
+| Artificial insemination records | HTML + JavaScript | Flock management |
+| Daily egg production | Automatic calculations | Production control |
+| Semen collection | Dynamic forms | Quality tracking |
+| Inventory | Final balance algorithm | Stock control |
+| Record search | Text filtering | Fast queries |
+| Local storage | LocalStorage | Persistent data |
+| Export | JSON and CSV | Data backup |
 
-This project is a static web page designed to help digitize daily records in a turkey farm. The main goal is to replace or complement paper forms used for inventory, egg production, artificial insemination and male semen collection.
+---
 
-The current version stores data locally in the browser using `localStorage`, so it can work without a backend during the prototype stage.
+# Project Architecture
 
-### Main Modules
+The project is built as a static web application.
 
-- **Dashboard:** shows general counters and recent activity.
-- **Artificial Insemination:** records date, lot, start/end time, semen used, bird conditions, responsible staff and observations.
-- **Egg Production:** records daily egg production by lot, including fertile eggs, commercial eggs, broken eggs, dirty eggs, double-yolk eggs, shells, mortality, infirmary birds, recovered birds, feed, water and observations.
-- **Semen Collection:** records collection room, lot, concentration, semen extracted, males worked, males that produced semen, males that did not produce semen and poor-quality samples.
-- **Inventory:** records products, entries, consumption, activity outputs, transfers, previous balance, final balance, lot where the product was used, responsible person and observations.
+- HTML5
+- CSS3
+- JavaScript
+- LocalStorage
 
-### Technologies Used
+---
 
-- **HTML5:** page structure and forms.
-- **CSS3:** layout, responsive design and visual styling.
-- **JavaScript:** application logic, data handling, calculations, table rendering, search, editing and deletion.
-- **LocalStorage:** browser-based local persistence.
-- **CSV export:** allows exporting module tables.
-- **JSON backup:** allows exporting and importing full local backups.
+# System Modules
 
-### Main Logic and Algorithms
+## Artificial Insemination
 
-The application uses simple client-side algorithms:
+Records:
 
-- Converts form data into JavaScript objects.
-- Stores records in arrays grouped by module.
-- Saves and loads data using `localStorage`.
-- Dynamically renders tables from stored records.
-- Filters records using text search across all fields.
-- Calculates egg production totals:
-  - fertile egg total
-  - commercial egg total
-  - daily production total
-- Calculates inventory balances:
+- Date
+- Batch
+- Start time
+- End time
+- Semen used
+- Closed hens
+- Hens with masses
+- Hens with pox
+- Sick bay
+- Recovered hens
+- Staff
+- Notes
 
-```text
-final balance = previous balance + entries - consumption - activity output - transfer
+---
+
+## Egg Production
+
+Records:
+
+- Date
+- Batch
+- Age
+- Barn
+- Fertile eggs
+- Commercial eggs
+- Broken eggs
+- Dirty eggs
+- Double-yolk eggs
+- White eggs
+- Small eggs
+- Shells
+- Mortality
+- Sick bay
+- Recovered birds
+- Marked birds
+- Penalized birds
+- Feed
+- Water
+- Notes
+
+---
+
+## Semen Collection
+
+Records:
+
+- Date
+- Room
+- Batch
+- Semen concentration
+- Semen extracted
+- Males processed
+- Males producing semen
+- Males without semen
+- Poor-quality semen
+- Collector
+- Notes
+
+---
+
+## Inventory
+
+Records:
+
+- Product
+- Unit
+- Quantity
+- Minimum stock
+- Date
+- Dispatch number
+- Work center
+- Responsible person
+- Entries
+- Consumption
+- Outputs
+- Transfers
+- Previous balance
+- Final balance
+- Batch
+- Expiration date
+- Employee signature
+- Notes
+
+---
+
+# Implemented Algorithms
+
+## Form Conversion
+
+Each form is converted into a JavaScript object.
+
+## Local Storage
+
+Records are stored using `localStorage`.
+
+## Dynamic Rendering
+
+Tables update automatically whenever records are created, edited or deleted.
+
+## Search
+
+Records can be searched using text filtering.
+
+## Egg Production
+
+```
+Fertile total =
+Small fertile +
+Medium fertile +
+Large fertile
+
+Commercial total =
+Broken +
+Dirty +
+Double yolk +
+White +
+Small +
+Others
+
+Daily production =
+Fertile total + Commercial total
 ```
 
-- Shows low-stock visual alerts when a product reaches or drops below its minimum value.
-- Supports record editing and deletion.
-- Supports JSON backup import/export and CSV table export.
+## Inventory
 
-### Current Limitations
+```
+Final balance =
+Previous balance +
+Entries -
+Consumption -
+Activity output -
+Transfer
+```
 
-This project is not finished yet. Current limitations include:
+## Alerts
 
-- Data is stored only in the browser with `localStorage`.
-- No user accounts or login system.
-- No roles or permissions.
-- No external database.
-- No synchronization between devices.
-- No advanced reports, charts or PDFs.
-- Some field validations are still basic.
-- The final design and form structure may need changes based on real farm workflows.
+The system displays a warning whenever stock reaches the minimum quantity.
 
-### Future Improvements
+---
 
-- Add a real database.
-- Add authentication and user roles.
-- Add reports by date, lot, room and product.
-- Add production, mortality and inventory charts.
-- Export reports to PDF and Excel.
-- Add automatic backups.
-- Improve mobile and tablet experience.
-- Add change history by user.
-- Add stronger validation rules.
+# Technologies
 
-### How to Use
+- HTML5
+- CSS3
+- JavaScript
+- LocalStorage
+- JSON
+- CSV
 
-Open the main HTML file in a browser, or serve the project folder with a local static server.
+---
 
-Example:
+# Usage
+
+1. Open the application in your browser.
+2. Select the desired module.
+3. Fill in the form.
+4. Save the record.
+5. Review the data table.
+6. Export information as JSON or CSV.
+
+---
+
+# Running the Project
+
+No dependencies are required.
+
+Simply open the main HTML file.
+
+Or run a local server:
 
 ```bash
 python -m http.server 8765
@@ -100,12 +213,43 @@ python -m http.server 8765
 
 Then open:
 
-```text
+```
 http://localhost:8765
 ```
 
-### License
+---
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+# Project Status
+
+This project is still under development.
+
+Planned features:
+
+- Database integration
+- User authentication
+- User roles
+- Device synchronization
+- PDF reports
+- Advanced Excel export
+- Charts and dashboards
+- Improved validation
+- Better UI
+- User activity history
 
 ---
+
+# Goal
+
+To digitize the daily processes of a turkey farm, reducing paperwork and improving production, inventory, insemination and semen collection management.
+
+---
+
+# Author
+
+Manuel
+
+---
+
+# License
+
+MIT License
